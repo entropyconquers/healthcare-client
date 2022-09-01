@@ -22,49 +22,26 @@ window.Pusher = Pusher;
 
 window.Echo = new Echo({
   broadcaster: 'pusher',
-  authEndpoint: 'https://f544-2409-4050-dc2-8820-6c12-e670-ce6c-1775.ngrok.io/api/broadcasting/auth',
+  authEndpoint: 'https://475a-47-31-167-20.ngrok.io/broadcasting/auth',
   
   //key: process.env.REACT_APP_PUSHER_APP_KEY,
   key:"ba3a6a27bf30720c49f9",
   //cluster: process.env.REACT_APP_PUSHER_APP_CLUSTER,
   cluster:"ap2",
   forceTLS: true,
+  encrypted:false,
   auth: {
     headers: {
       'Authorization': "Bearer 5|odGIOYJpb6mflkmthpvlMr2h9CNsDR70jUWu4wMr",
-      //cors
-      'Access-Control-Allow-Origin': '*',
     }
-  }
-  /*authorizer: (channel, options) => {
-    return {
-        authorize: (socketId, callback) => {
-            const token = "Bearer 3|af8BW6L1mqY0hCOm0jI3VbZZSVh73Ijtp6mdyiNF" ;
-            
-            fetch("http://0e48-2409-4050-dc2-8820-6c12-e670-ce6c-1775.ngrok.io/broadcasting/auth", {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: token,
-              },
-              body: JSON.stringify({
-                socket_id: socketId,
-                channel_name: channel.name,
-              }),
-            })
-              .then((response) => {
-                callback(false, response);
-              })
-              .catch((error) => {
-                callback(true, error);
-              });
-        }
-    };
-  }*/
+  },
 });
 //window.Echo.connector.pusher.config.auth.headers['Authorization'] = "Bearer 3|af8BW6L1mqY0hCOm0jI3VbZZSVh73Ijtp6mdyiNF";
 const x = window.Echo.private(`users.29436883dd80719eeca1e9c18fb01a40`)
-      .listen('App\\Events\\RoomCreated', (e) => {
+      .listen('RoomCreated', (e) => {
+        /*
+        {"room":{"name":"1-1662006923-1","room_id":"2f932f01-d75b-4189-9067-43e1e568eccb","privacy":"private","accepted_at":null,"url":"https://healthcaresamarth.daily.co/1-1662006923-1","config":{"start_video_off":true,"start_audio_off":true},"receiver":{"id":1,"phone_number":"9451526930","channel_name":"29436883dd80719eeca1e9c18fb01a40","created_at":"2022-08-31T07:36:45.000000Z","updated_at":"2022-08-31T07:36:45.000000Z"}}}
+        */
           console.log(e);
 });
 /*indow.Echo.channel(`users.29436883dd80719eeca1e9c18fb01a40`)
