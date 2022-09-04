@@ -3,8 +3,8 @@ import EnterNumber from "./pages/EnterNumber";
 import OtpVerify from "./pages/OtpVerify";
 import Registration from "./pages/Registration";
 import Splash from "./pages/Splash";
-import Buy99 from "./pages/Buy99";
-import Buy499 from "./pages/Buy499";
+import Buy99 from "./pages/BuyOneTime";
+import Buy499 from "./pages/BuyYearly";
 import GreenRevolutionGallery from "./pages/GreenRevolutionGallery";
 import HealthArticleGallery from "./pages/HealthArticleGallery";
 import ChatScreen from "./pages/Chat";
@@ -12,6 +12,13 @@ import Article from "./pages/Article";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import TermsAndConditions from "./pages/Tnc";
 import Doctors from "./pages/Doctors";
+import ReviewOrder from "./pages/ReviewOrder";
+import Orders from "./pages/Orders";
+import Consultations from "./pages/Consultations";
+import Prescriptions from "./pages/Prescriptions";
+import Call from "./pages/Call";
+import Refer from "./pages/ReferEarn";
+
 
 const RouteData = [
     {
@@ -45,13 +52,13 @@ const RouteData = [
         needsAuth: true,
     },
     {
-        path: "/buy99",
+        path: "/buyonetime",
         component: Buy99,
         exact: true,
         needsAuth: true,
     },
     {
-        path: "/buy499",
+        path: "/buyyearly",
         component: Buy499,
         exact: true,
         needsAuth: true,
@@ -98,6 +105,45 @@ const RouteData = [
         exact: true,
         needsAuth: true,
     },
+    {
+        path: "/revieworder",
+        component: ReviewOrder,
+        exact: true,
+        needsAuth: true,
+    },
+    {
+        path: "/orders",
+        component: Orders,
+        exact: true,
+        needsAuth: true,
+    },
+    {
+        path: "/consultations",
+        component: Consultations,
+        exact: true,
+        needsAuth: true,
+    },
+    {
+        path: "/prescriptions",
+        component: Prescriptions,
+        exact: true,
+        needsAuth: true,
+    },
+    {
+        path: "/call",
+        component: Call,
+        exact: true,
+        needsAuth: true,
+    },
+    {
+        path: "/refer",
+        component: Refer,
+        exact: true,
+        needsAuth: true,
+    },
+    
+
+
 
 
 ];

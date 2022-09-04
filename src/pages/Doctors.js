@@ -19,10 +19,11 @@ import {
         <HStack spacing={3} w="100%" align={"center"}>
           <Avatar
             size="lg"
-            name="Dan Abrahmov"
-            src="https://bit.ly/dan-abramov"
+            name={props.name}
+            //src="https://bit.ly/dan-abramov"
+            src={props.img}
           >
-            <AvatarBadge boxSize="0.8em" bg="green.500" />
+            <AvatarBadge boxSize="0.8em" bg={props.online?"green.500":"orange.500"} />
           </Avatar>
           <VStack ml="1" align="flex-start" w="100%" spacing={3}>
             <Flex flexDirection="row" align="center" justify={"flex-start"}>
@@ -34,18 +35,18 @@ import {
                 fontSize="md"
                 fontWeight="bold"
               >
-                Dr. Neelam Sharma
+                {"Dr. "+props.name}
               </Text>
-              <Text ml={2} color="green.500">
-                Online
+              <Text ml={2} color={props.online?"green.500":"orange.500"}>
+                {props.online?"Online":"Away"}
               </Text>
             </Flex>
             <HStack w="100%" spacing={3}>
               <Text fontSize="sm" bg="white" p={0.5} px={2} borderRadius="xl">
-                MBBS, MD
+                {props.speciality}
               </Text>
               <Text fontSize="sm" color="gray.600">
-                Hindi | English
+                {props.languages}
               </Text>
             </HStack>
           </VStack>
@@ -60,9 +61,7 @@ import {
               px={3}
               borderRadius="xl"
             >
-              Neha Sharma is an Indian actress and model. Sharma made her acting
-              debut with the Telugu film Chirutha and her Hindi film debut with
-              Crook.
+              {props.about}
             </Text>
           </HStack>
           <Flex w="100%" justify="flex-end">
@@ -74,7 +73,7 @@ import {
               px={3}
               py={2}
             >
-              Consult Now
+              {props.online?"Consult Now":"Schedule Appointment"}
             </Button>
           </Flex>
         </VStack>
@@ -106,25 +105,66 @@ import {
         >
           <Back relative color="#FE7F7F" textColor="white" title="Doctors" />
 
-          <VStack mt={5} width={"100%"}alignItems="center">
+          <VStack mt={5} width={"100%"} alignItems="center">
             <Tabs p={0} w="100%" colorScheme={"accent"}>
               <TabList>
                 <Tab>Available</Tab>
                 <Tab>Online</Tab>
-                
               </TabList>
 
               <TabPanels>
                 <TabPanel>
-                  <DocComp />
-                  <DocComp />
-                  <DocComp />
-
+                  <DocComp
+                    name="Naman Gupta"
+                    img="https://bit.ly/dan-abramov"
+                    speciality="Dentist"
+                    about="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                    languages="English, Hindi"
+                    online={false}
+                  />
+                  <DocComp
+                    name="Divya Garg"
+                    img="https://source.unsplash.com/random?female"
+                    speciality="Psychiatrist"
+                    about="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                    languages="English, Hindi"
+                    online={true}
+                  />
+                  <DocComp
+                    name="Pranav Mittal"
+                    img="https://source.unsplash.com/random?male"
+                    speciality="Physician"
+                    about="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                    languages="English, Hindi"
+                    online={true}
+                  />
+                  <DocComp
+                    name="Prakash Khanna"
+                    img="https://source.unsplash.com/random?man"
+                    speciality="Dentist"
+                    about="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                    languages="English, Hindi"
+                    online={false}
+                  />
                 </TabPanel>
                 <TabPanel>
-                  <p>two!</p>
+                  <DocComp
+                    name="Divya Garg"
+                    img="https://source.unsplash.com/random?female"
+                    speciality="Psychiatrist"
+                    about="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                    languages="English, Hindi"
+                    online={true}
+                  />
+                  <DocComp
+                    name="Pranav Mittal"
+                    img="https://source.unsplash.com/random?male"
+                    speciality="Physician"
+                    about="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                    languages="English, Hindi"
+                    online={true}
+                  />
                 </TabPanel>
-                
               </TabPanels>
             </Tabs>
           </VStack>

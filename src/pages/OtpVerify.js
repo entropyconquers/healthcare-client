@@ -1,28 +1,84 @@
 import {
   Heading, Stack, Text, useToast
 } from "@chakra-ui/react";
-import { useState } from "react";
-import { useSignIn } from 'react-auth-kit';
+import { useEffect, useState } from "react";
+import { useAuthHeader, useSignIn } from 'react-auth-kit';
 import OtpInput from 'react-otp-input';
 import { useLocation } from "react-router-dom";
 import server from '../api/server';
 import Back from "../components/Back";
 import RedBtn from "../components/RedBtn";
 import useTransitionHistory from "../hooks/useTransitionHistory";
+import useFetch from "../hooks/useFetch";
 const OtpVerify = () => {
   const location = useLocation();
   const [otp, setOtp] = useState("")
   const [push] = useTransitionHistory();
   const signIn = useSignIn();
-  const toast = useToast()
+  const toast = useToast();
+  const [loginUrl, setLoginUrl] = useState("");
+  //const authHeader = 
+  //useFetch
+  const authHeader = useAuthHeader();
+  const initLoginParams = {
+    phone_number: location.state.number,
+  }
+  const [loginResponse, loginLoading, loginError, fetchUrl] = useFetch("login?"+new URLSearchParams(initLoginParams), {
+    method: "POST",
+  }, true);
+  //get user/profile
+  const [profileResponse, profileLoading, profileError, fetchProfileUrl] = useFetch("user/profile", {
+    method: "GET",
+    //include token
+    headers: {
+      "Authorization": authHeader(),
+      "Content-Type": "application/json",
+    }
+  }, true);
+  
+  //loading
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    //console.log(authHeader());
+  }, [authHeader])
+  
+
+
+    
+
+  
+  useEffect(() => {
+    fetchUrl();
+  }, [])
+  useEffect(() => {
+    if (loginResponse) {
+      console.log(loginResponse);
+    }
+  }, [loginResponse])
+  useEffect(() => {
+    if(profileResponse) {
+      if (profileResponse.success) {
+        //navigate to dashboard
+        push("/dashboard");
+      } else {
+        //navigate to registration
+        push("/register");
+      }
+    }
+  }, [profileResponse])
+  
+  
   const handleLogin = () => {
-    push('/register');
-    server.post('/test/login', null, { params: { phone_number: location.state.number, otp: otp } }).then((response) => {
+    setLoading(true);
+    //push('/register');
+    server.post('/login', null, { params: { phone_number: location.state.number, otp: otp } }).then((response) => {
       if(!response){
+        setLoading(false);
         toast({
           title: `Incorrect OTP!`,
           status: "error",
-          isClosable: false,
+          isClosable: true,
         })
       }
       if(response.status){
@@ -40,14 +96,17 @@ const OtpVerify = () => {
               return Promise.reject(error);
           }); 
           toast.closeAll()
-          push('/dashboard');
+          fetchProfileUrl();
+
+          // push('/dashboard');
         }
 
         else{
           console.log("error")
+          setLoading(false);
           //Saving Token Failed
           toast({
-            title: `Incorrect Email or Password`,
+            title: `Incorrect OTP!`,
             status: "error",
             isClosable: true,
           })
@@ -55,6 +114,12 @@ const OtpVerify = () => {
       }
       else{
         console.log("error1")
+        setLoading(false);
+        toast({
+          title: `Some error occured!`,
+          status: "error",
+          isClosable: true,
+        })
         //Login Failed, Show Error
         
 
@@ -75,7 +140,11 @@ const OtpVerify = () => {
         }}
       >
         <Back />
+        
         <Stack spacing={4}>
+        <img src={process.env.PUBLIC_URL + '/assets/logo.png'} alt="logo" style={{
+            paddingBottom: 10,
+        }}/>
           <Heading fontSize={{ base: "md", md: "xl" }}>
             Enter the 6-digit OTP sent to
             <br></br>
@@ -102,7 +171,9 @@ const OtpVerify = () => {
             <u style={{ color: "#000" }}>Get OTP again</u>
           </Text>
         </Stack>
-        <RedBtn text={"Continue"} handleClick={handleLogin}/>
+        <RedBtn 
+        loadingText={"Verifying..."}
+        isLoading={loading} text={"Continue"} handleClick={handleLogin}/>
       </div>
     );
 }

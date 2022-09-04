@@ -65,7 +65,7 @@ import {
             alignItems="center"
             flex={1}
           >
-            <Button mt="auto" colorScheme={props.colorScheme}>
+            <Button onClick={()=>props.handleClick()} mt="auto" colorScheme={props.colorScheme}>
               Buy Now
             </Button>
           </Flex>
@@ -84,7 +84,12 @@ import {
     const signIn = useSignIn();
     const toast = useToast()
     
+    //state location
+    const {state} = location;
     
+    const handleClick = () => {
+      push("/revieworder", {plan: "yearly"})
+    }
       return (
         <div
           style={{
@@ -122,9 +127,10 @@ import {
             flex={2} px={"20"}>
               <PricingBox
                 colorScheme="purple"
-                price="499"
+                price={state && state.price ? state.price : "499"}
                 content="1 Year Subscription Plan 
                 (Unlimited Online Doctor Consultancy are free in one year for One family)."
+                handleClick={handleClick}
               />
             </Flex>
             <Flex flex={1.5} align="center">

@@ -19,13 +19,15 @@ const Messages = ({ messages }) => {
                 borderRadius={"lg"}
                 color="white"
                 ml="20"
-                maxW="350px"
+                maxW="250px"
                 my="1"
                 p="3"
                 align="flex-end"
                 justify={"flex-end"}
               >
-                <Text>{item.text}</Text>
+                <Text
+                w="100%"
+                >{item.text}</Text>
               </Flex>
             </Flex>
           );
@@ -43,13 +45,15 @@ const Messages = ({ messages }) => {
                 borderRadius={"xl"}
                 color="black"
                 
-                maxW="350px"
+                maxW="250px"
                 my="2"
                 mx="1"
                 p="3"
                 mr="20"
               >
-                <Text>{item.text}</Text>
+                <Text
+                  w="100%"
+                >{item.text}</Text>
               </Flex>
             </Flex>
           );

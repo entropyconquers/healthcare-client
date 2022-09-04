@@ -52,6 +52,7 @@ body {
   -ms-flex-align: center;
   -webkit-align-items: center;
   align-items: center;
+  overflow: visible;
 }
 
 .swiper-slide {
@@ -60,6 +61,7 @@ body {
   width: 100%;
   height: 100%;
   background-color: #00000000;
+  overflow: visible;
 }
 span.swiper-pagination-bullet.swiper-pagination-bullet-active {
     background-color: #00000080;

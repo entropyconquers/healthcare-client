@@ -32,13 +32,13 @@ function Splash() {
     //image
     {url: "https://source.unsplash.com/random?mouth", options: {}, type: "Image"}
   ]
-  const [data, loading, error] = useArrayFetch(urlObjectsArray);
+  /*const [data, loading, error] = useArrayFetch(urlObjectsArray);
   useEffect(() => {
     console.log("data",data);
     console.log("loading",loading);
     console.log("error",error);
   }, [data])
-  
+  */
     
     
 

@@ -65,7 +65,10 @@ import {
             alignItems="center"
             flex={1}
           >
-            <Button mt="auto" colorScheme={props.colorScheme}>
+            <Button
+            onClick={()=>props.handleClick()}
+              
+            mt="auto" colorScheme={props.colorScheme}>
               Buy Now
             </Button>
           </Flex>
@@ -79,12 +82,19 @@ import {
   
   const Dashboard = () => {
     const location = useLocation();
+
     const [otp, setOtp] = useState("")
     const [push] = useTransitionHistory();
     const signIn = useSignIn();
     const toast = useToast()
     
+    //get state
+    const { state } = location;
+
     
+    const handleClick = () => {
+      push("/revieworder", {plan: "one_time"})
+    }
       return (
         <div
           style={{
@@ -120,8 +130,9 @@ import {
             <Flex flex={2} px={"20"}>
               <PricingBox
                 colorScheme="blue"
-                price="99"
+                price={state && state.price ? state.price : "99"}
                 content="Only 1 time Online Doctor Consultancy are Available "
+                handleClick={handleClick}
               />
             </Flex>
             <Flex

@@ -1,6 +1,7 @@
 import {
     Box, Button, Flex, Stack, Text
 } from "@chakra-ui/react";
+import { useEffect, useRef, useState } from "react";
 
 ///////////// Pricing Box ///////////////
 
@@ -102,6 +103,7 @@ export const PricingBox = (props) => {
   export const ConsultBox = (props) => {
     return (
       <Box
+        onClick={()=>props.handleClick()}
         dropShadow="xl"
         flex={1}
         borderRadius="lg"
@@ -166,17 +168,73 @@ export const PricingBox = (props) => {
   /////////////// Slide ///////////////
   
   export const Slide = (props) => {
+    const [margin, setMargin] = useState(0)
+    const [height, setHeight] = useState(0)
+  const ref = useRef(null)
+
+  useEffect(() => {
+    const h = ref.current.clientHeight
+    setHeight(h)
+    //convert string Xpx to number X
+    
+  })
+  useEffect(() => {
+    if(height>100){
+    const h = ref.current.clientHeight
+    
+    //convert string Xpx to number X
+    const hpx = Number(props.imgH.split('px')[0])
+    
+    const m = hpx > h ? hpx-h : 1
+    setMargin(m)
+    //console.log("Margin: "+m)
+    }
+  }, [height])
+  useEffect(() => {
+    if(margin==1){
+      const x = (props.sliderHeight - ref.current.clientHeight)/4
+      setMargin(x)
+      //console.log(props.img+" "+x)
+    }
+  }, [margin])
+
+  
+  
+  
+
     return (
       <Box
         flex={1}
         borderRadius="lg"
-        bg={props.bg}
+        
         align={"center"}
-        overflow="hidden"
+        position={"relative"}
+        overflow="visible"
         minH={150}
+        //mt={`${margin}px`}
+        
       >
-        <Flex height="100%" flexDir={"row"}>
-          <Stack h="100%" flex={2} p={4} pr={0} spacing={3}>
+        <Flex   height="100%" flexDir={"row"}>
+          <div
+            style={{
+              position: "absolute",
+              top: `${margin}px`,
+              left: 0,
+              width: "100%",
+              height: height,
+              
+              background: props.bg,
+              zIndex: -1,
+              borderRadius: "10px",
+            }}
+          >
+
+          </div>
+          <Stack
+          mt={`${margin}px`}
+          ref={ref} h="100%" p={4} pr={0} spacing={3}
+            flex={2}
+          >
             <Text
               as={"b"}
               color="white"
@@ -213,15 +271,20 @@ export const PricingBox = (props) => {
           <img
             style={{
               flex: 1,
+              //position: "absolute",
+              
+              //bottom: 0,
+              //right: 0,
               marginTop: "auto",
               marginBottom: props.mb ? "auto" : "0px",
               height: props.imgH,
-              marginRight: "5px",
+             //marginRight: "5px",
               objectFit: "contain",
             }}
             src={process.env.PUBLIC_URL + "/assets/" + props.img}
           ></img>
         </Flex>
+        
       </Box>
     );
   };

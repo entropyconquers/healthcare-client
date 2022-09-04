@@ -1,5 +1,5 @@
 import {
-    Heading, Input, InputGroup, InputLeftAddon, Stack, Text
+    Heading, Input, InputGroup, InputLeftAddon, Stack, Text, useToast
 } from "@chakra-ui/react"
 import { useState } from "react"
 import Back from "../components/Back"
@@ -7,9 +7,19 @@ import RedBtn from "../components/RedBtn"
 import useTransitionHistory from "../hooks/useTransitionHistory"
 
 export default () => {
+    const toast = useToast()
     
     const [push] = useTransitionHistory();
     const handleClick = () => {
+        if(number.length != 10){
+           //toast
+           toast({
+            title: `Enter a valid phone number`,
+            status: "error",
+            isClosable: true,
+          })
+          return;
+        }
         push("/otp", {
             number: number
         })
@@ -29,6 +39,9 @@ export default () => {
       >
         <Back />
         <Stack spacing={4}>
+        <img src={process.env.PUBLIC_URL + '/assets/logo.png'} alt="logo" style={{
+            padding: 10,
+        }}/>
           <Heading fontSize={{ base: "md", md: "xl" }}>
             Enter your mobile number
           </Heading>
@@ -44,7 +57,9 @@ export default () => {
               placeholder="Mobile Number"
             />
           </InputGroup>
-          <Text color="gray.500" fontFamily="body" fontSize={{ base: "sm", md: "md", lg: "lg" }}>
+          <Text
+          onClick={()=>push("/tnc")}
+          color="gray.500" fontFamily="body" fontSize={{ base: "sm", md: "md", lg: "lg" }}>
           By continuing, you agree to our <br></br>
         <u style={{color:"#000"}}>Terms & Conditions</u>
             </Text>
