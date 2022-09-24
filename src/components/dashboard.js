@@ -75,7 +75,7 @@ export const PricingBox = (props) => {
       >
         <Stack  h="100%" spacing={2}>
           <img
-             src={process.env.PUBLIC_URL + '/assets/'+props.img} 
+             src={props.src && props.src.toString().length > 0 ? props.src : process.env.PUBLIC_URL + '/assets/'+props.img} 
           >
           </img>
           <Text

@@ -18,7 +18,8 @@ import Consultations from "./pages/Consultations";
 import Prescriptions from "./pages/Prescriptions";
 import Call from "./pages/Call";
 import Refer from "./pages/ReferEarn";
-
+import UpdateRegistration from "./pages/UpdateRegistration";
+import Help from "./pages/Help";
 
 const RouteData = [
     {
@@ -141,11 +142,20 @@ const RouteData = [
         exact: true,
         needsAuth: true,
     },
-    
-
-
-
-
+    //updateregistration
+    {
+        path: "/updateregistration",
+        component: UpdateRegistration,
+        exact: true,
+        needsAuth: true,
+    },
+    //help
+     {
+        path: "/help",
+        component: Help,
+        exact: true,
+        needsAuth: true,
+    },
 ];
 
 export default RouteData;

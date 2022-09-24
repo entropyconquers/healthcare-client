@@ -23,18 +23,9 @@ const OtpVerify = () => {
   const initLoginParams = {
     phone_number: location.state.number,
   }
-  const [loginResponse, loginLoading, loginError, fetchUrl] = useFetch("login?"+new URLSearchParams(initLoginParams), {
-    method: "POST",
-  }, true);
+  const [loginResponse, loginLoading, loginError, fetchUrl] = useFetch();
   //get user/profile
-  const [profileResponse, profileLoading, profileError, fetchProfileUrl] = useFetch("user/profile", {
-    method: "GET",
-    //include token
-    headers: {
-      "Authorization": authHeader(),
-      "Content-Type": "application/json",
-    }
-  }, true);
+  const [profileResponse, profileLoading, profileError, fetchProfileUrl] = useFetch();
   
   //loading
   const [loading, setLoading] = useState(false);
@@ -49,7 +40,9 @@ const OtpVerify = () => {
 
   
   useEffect(() => {
-    fetchUrl();
+    fetchUrl("login?"+new URLSearchParams(initLoginParams), {
+      method: "POST",
+    }, true);
   }, [])
   useEffect(() => {
     if (loginResponse) {
@@ -96,7 +89,14 @@ const OtpVerify = () => {
               return Promise.reject(error);
           }); 
           toast.closeAll()
-          fetchProfileUrl();
+          fetchProfileUrl("user/profile", {
+            method: "GET",
+            //include token
+            headers: {
+              "Authorization": 'Bearer '+response.data.token,
+              "Content-Type": "application/json",
+            }
+          }, true);
 
           // push('/dashboard');
         }

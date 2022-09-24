@@ -5,11 +5,13 @@ import { AppContext } from "./AppContext";
 
 import useTransitionHistory from "../hooks/useTransitionHistory";
 import RouteData from "../RouteData";
+import { useAuthHeader } from "react-auth-kit";
+import Splash from "../pages/Splash";
 
 export function Routes() {
   const { preset, enterAnimation, exitAnimation } = useContext(AppContext);
   const [push] = useTransitionHistory();
-  
+  const authHeader = useAuthHeader()
   return (
     <>
       <Route
@@ -24,12 +26,25 @@ export function Routes() {
               {
                 // Routes
                 RouteData.map((route, index) => (
+                  //private route
+                  
                   <Route
                     key={index}
                     exact path={route.path}
                     
-                    render={() => 
-                      <route.component/>
+                    render={() => {
+                      if(route.needsAuth){
+                        if(authHeader().length > 0){
+                          return <route.component/>
+                        }
+                        else{
+                          
+                          return <Splash/>
+                        }
+                      }
+                      return <route.component/>
+                    }
+                      
                   } />
 
                 ))

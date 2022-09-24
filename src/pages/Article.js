@@ -15,6 +15,7 @@ import {
   // import required modules
   import { Autoplay, Pagination } from "swiper";
   import SkeletonImage from "../components/SkeletonImage";
+import useFetch from "../hooks/useFetch";
   
   
  
@@ -22,7 +23,11 @@ import {
   
   const Article = () => {
    
-    
+      //useFetch
+      const [articleResponse, articleLoading, articleError, articleFetchUrl] = useFetch();
+
+
+      
     
       return (
         <div

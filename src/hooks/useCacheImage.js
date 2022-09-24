@@ -2,28 +2,31 @@
 
 import { useState, useEffect } from "react";
 
-export default function useCacheImage(url) {
-  const [image, setImage] = useState(null);
+export default function useCacheImages() {
   //loading
-  const [loading, setloading] = useState(false)
-    //error
-    const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+  //image array
 
-  useEffect(() => {
+  const cacheImages = async (srcArray) =>{
+    setLoading(true);
+    const promises = await srcArray.map(src =>{
+        return new Promise((resolve, reject)=>{
+            const img = new Image();
+            img.src = src;
+            img.onload = ()=>{
+                resolve(src);
+            }
+            img.onerror = ()=>{
+                reject(src);
+            }
+        })
+    })  
+    await Promise.all(promises);
+    setLoading(false);
+    //console.log("Images loaded");
+  }
+  
 
-    setloading(true);
-    const img = new Image();
-    img.src = url;
-    img.onload = () => {
-      setImage(img);
-      setloading(false);
-    }
-    img.onerror = () => {
-      setError("Error loading image");
-      setloading(false);
-    }
-  }, [url]);
-
-    return { image, loading, error };
+  return [loading, cacheImages];
 }
 

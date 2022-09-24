@@ -27,13 +27,33 @@ import {IoIosHelpCircle} from "react-icons/io";
 import {MdHealthAndSafety} from "react-icons/md";
 import {BsFillShareFill} from "react-icons/bs";
 import useTransitionHistory from "../hooks/useTransitionHistory";
+import useFetch from "../hooks/useFetch";
 
 
 
 export default function Back(props) {
 
   const [push] = useTransitionHistory();
+  const [userResponse, userLoading, userError, userFetch] = useFetch();
+  const [name, setName] = useState("User");
+  //profile pic
+  const [profilePic, setProfilePic] = useState("");
+  useEffect(() => {
+    userFetch("user/profile",
+    {
+      method: "GET",
+
+    },true,true)
+  }, [])
   
+  useEffect(() => {
+    if(userResponse && userResponse.data){
+      //console.log(userResponse)
+      setName(userResponse.data.full_name);
+      setProfilePic(userResponse.data.image);
+    }
+  }, [userResponse])
+
   const {ref} = useSwipeable({
     onSwiped: (eventData) => {
       if(eventData.dir === "Right"){
@@ -54,6 +74,14 @@ export default function Back(props) {
   const [placement, setPlacement] = React.useState('left')
   //get current year
   const year = new Date().getFullYear();
+  const handleEditProfile = () => {
+    if(userResponse && userResponse.data){
+      onClose();
+      push("/updateregistration", {
+        userData: userResponse.data,
+      });
+    }
+  }
 
   return (
     <div
@@ -70,7 +98,7 @@ export default function Back(props) {
         paddingTop: "20px",
       }}
     >
-      <button
+      <Button minH={"45px"}
         style={{
           position: "absolute",
           left: "0px",
@@ -82,7 +110,7 @@ export default function Back(props) {
           color={props.textColor ? props.textColor : "black"}
           size={25}
         />
-      </button>
+      </Button>
 
       {
         <img
@@ -104,27 +132,28 @@ export default function Back(props) {
             <HStack spacing={5} w="100%" align={"center"}>
               <Avatar
                 size="lg"
-                name="John Doe"
-                src="https://bit.ly/dan-abramov"
+                name={name}
+                src={profilePic}
               ></Avatar>
               <VStack spacing={0} align={"left"}>
                 <Text fontSize="xl" fontWeight="bold">
-                  John Doe
+                  {name}
                 </Text>
-                <Text color="accent.200" fontSize="xs">
-                  View Profile
+                <Text onClick={handleEditProfile} color="accent.200" fontSize="xs">
+                  Edit Profile
                 </Text>
               </VStack>
             </HStack>
           </DrawerHeader>
           <DrawerBody p={0}>
-            <Button
+            <Button minH={"45px"}
+              
               m={0}
               align="left"
               justifyContent={"left"}
               w="100%"
               borderRadius="0px"
-              leftIcon={<MdRequestPage color="#FE7F7F" size={20} />}
+              leftIcon={<MdRequestPage color="#FE7F7F" size={20}  />}
               rightIcon={
                 <FiChevronRight
                   style={{
@@ -150,7 +179,7 @@ export default function Back(props) {
             >
               Orders
             </Button>
-            <Button
+            <Button minH={"45px"}
               m={0}
               align="left"
               justifyContent={"left"}
@@ -182,7 +211,7 @@ export default function Back(props) {
             >
               Consultations
             </Button>
-            <Button
+            <Button minH={"45px"}
               m={0}
               align="left"
               justifyContent={"left"}
@@ -214,7 +243,7 @@ export default function Back(props) {
             >
               E-Prescriptions
             </Button>
-            <Button
+            <Button minH={"45px"}
               m={0}
               align="left"
               justifyContent={"left"}
@@ -246,7 +275,7 @@ export default function Back(props) {
             >
               Doctors
             </Button>
-            <Button
+            <Button minH={"45px"}
               m={0}
               align="left"
               justifyContent={"left"}
@@ -278,7 +307,7 @@ export default function Back(props) {
             >
               Privacy Policy
             </Button>
-            <Button
+            <Button minH={"45px"}
               m={0}
               align="left"
               justifyContent={"left"}
@@ -310,7 +339,7 @@ export default function Back(props) {
             >
               Help
             </Button>
-            <Button
+            <Button minH={"45px"}
               m={0}
               align="left"
               justifyContent={"left"}
@@ -342,7 +371,7 @@ export default function Back(props) {
             >
               Health articles
             </Button>
-            <Button
+            <Button minH={"45px"}
               m={0}
               align="left"
               justifyContent={"left"}

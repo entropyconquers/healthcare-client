@@ -11,21 +11,25 @@ import useTransitionHistory from "../hooks/useTransitionHistory"
 import ImageUploader from "react-image-upload";
 import "react-image-upload/dist/index.css";
 import imageCompression from 'browser-image-compression';
+import { useLocation } from "react-router"
 export default () => {
-    
+    //useLocation
+    const location = useLocation();
+    const oldData = location.state.userData;
+    //console.log(oldData);
     const [push] = useTransitionHistory();
     const toast = useToast();
     
-    const [number, setnumber] = useState("")
-    const [name, setname] = useState("")
+    const [number, setnumber] = useState(oldData.whatsapp_number)
+    const [name, setname] = useState(oldData.full_name)
     //email
-    const [email, setemail] = useState("")
+    const [email, setemail] = useState(oldData.email)
     //age
-    const [age, setage] = useState("")
+    const [age, setage] = useState(oldData.age)
     //gender
-    const [sex, setsex] = useState("")
+    const [sex, setsex] = useState(oldData.sex)
     //address
-    const [address,setaddress] = useState("")
+    const [address,setaddress] = useState(oldData.address)
     //base64 image
     const [image, setImage] = useState("")
 
@@ -34,19 +38,34 @@ export default () => {
     const authHeader = useAuthHeader()
     const [imageLoader, setImageLoader] = useState(false)
     const handleClick = () => {
-        //console.log(authHeader())
-        fetchUrl(`user/profile?full_name=${name}&age=${age}&sex=${sex}&address=${address}&email=${email}&whatsapp_number=${number}`, 
+        var data = {
+            "full_name": name,
+            "whatsapp_number": number,
+            "email": email,
+            "age": age,
+            "address": address,
+            "sex": sex
+        }
+
+        if(image.length > 0){
+          data.image = image
+        }
+        fetchUrl(`user/profile/1`, 
         {
-            method: "POST",
+            method: "PUT",
             body: JSON.stringify(
-              {
-                image: image
-              }
+              data
             )
             //include token
           },
         true, true)
-        //push("/dashboard")
+        
+        
+
+
+
+
+
     }
     useEffect(() => {
         if (response) {

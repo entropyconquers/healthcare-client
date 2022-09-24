@@ -1,6 +1,6 @@
 import {
     Box, Button,
-    Container, Flex, Stack, Text, useToast, Heading, HStack, VStack, Image, Spacer, Divider
+    Container, Flex, Stack, Text, useToast, Heading, HStack, VStack, Image, Spacer, Divider, Spinner
   } from "@chakra-ui/react";
   import { useEffect, useState } from "react";
   import { useSignIn } from 'react-auth-kit';
@@ -16,9 +16,10 @@ import {
   import { Autoplay, Pagination } from "swiper";
   import SkeletonImage from "../components/SkeletonImage";
 import RedBtn from "../components/RedBtn";
-  
+import useFetch from "../hooks/useFetch";
 
  const Order = (props) => {
+  
   return (
     <VStack w="100%">
       <Divider borderColor="gray.200" borderWidth="3px" />
@@ -56,12 +57,18 @@ import RedBtn from "../components/RedBtn";
   );
  }
   
-  
+ 
+
+
   const Orders = () => {
+    const [orderResponse, orderLoading, orderError, fetchUrl] = useFetch()
     const [orderHistory, setOrderHistory] = useState([]);
     useEffect(() => {
-      
-      setOrderHistory([
+      fetchUrl("/user/orders", {
+        method: "GET",
+      },
+      true, true)
+      /*setOrderHistory([
         {
           id: 1,
           package: "499 Rs Package",
@@ -82,13 +89,28 @@ import RedBtn from "../components/RedBtn";
         },
         
 
-      ]);
+      ]);*/
     }, [])
+    useEffect(() => {
+      if (orderResponse) {
+        setOrderHistory(orderResponse)
+      }
+    }, [orderResponse])
+    
+    useEffect(() => {
+      //error
+      if (orderError) {
+        console.log(orderError);
+      }
+    }, [orderError])
     
     const consultNow = () => {
 
     }
     
+    
+
+
       return (
         <div
           style={{
@@ -121,12 +143,12 @@ import RedBtn from "../components/RedBtn";
                 <Order 
                   key={order.id}
                   id={order.id} 
-                  package={order.package}
-                  details={order.details}
-                  date={order.date}
-                  expiry={order.expiry}
-                  price={order.price}
-                  fullprice={order.fullprice}
+                  package={order.title}
+                  details={order.desc}
+                  date={order.purchase_date}
+                  expiry={order.expiry_date}
+                  price={order.offer_price}
+                  fullprice={order.price}
 
                 />
               ))}
@@ -145,6 +167,8 @@ import RedBtn from "../components/RedBtn";
                 <Text fontSize="xs" color="gray.500">
                   Consult with trusted doctors
                 </Text>
+                <br />
+                {orderLoading && <Spinner mt={5} color='red.500' />}
                 <RedBtn
                   text={"Consult Now!"}
                   handleClick={consultNow}
